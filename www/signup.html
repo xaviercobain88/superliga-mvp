@@ -1,0 +1,25 @@
+<form name="userForm">
+    <md-input-container>
+        <label>Nombre</label>
+        <input placeholder="Ingresa tu nombre">
+    </md-input-container>
+    <md-input-container>
+        <label>Email</label>
+        <input placeholder="Ingresa tu email">
+    </md-input-container>
+    <md-input-container>
+        <label>Contraseña</label>
+        <input type="password" placeholder="Ingresa tu contraseña">
+    </md-input-container>
+    <section layout="row" layout-align="center center" class="m-t">
+        <md-button class="md-raised md-primary" ui-sref="authentication.login">Crear cuenta</md-button>
+    </section>
+    <section layout="row" layout-align="center center" class="m-t">
+        Ingresa con una cuenta ya existente
+    </section>
+    <section layout="row" layout-align="center center" class="m-t-xs m-b">
+        <md-button class="md-raised md-default-theme" ui-sref="authentication.login">
+            Ingresar
+        </md-button>
+    </section>
+</form>

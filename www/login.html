@@ -1,0 +1,24 @@
+
+<form name="userForm" >
+
+
+    <md-input-container flex>
+        <label>Email</label>
+        <input placeholder="Ingresa tu email">
+    </md-input-container>
+    <md-input-container flex>
+        <label>Contraseña</label>
+        <input type="password" placeholder="Ingresa tu contraseña">
+    </md-input-container>
+
+    <section layout="row" layout-align="center center" class="m-t">
+        <md-button class="md-raised md-primary md-100" ui-sref="app.feed">Ingresar</md-button>
+    </section>
+    <section layout="row" layout-align="center center" class="m-t-xs"><a href="signup.html">Has olvidado tu contraseña?</a>
+    </section>
+    <section layout="row" layout-align="center center" class="m-t m-b">
+        <md-button class="md-raised md-default-theme" ui-sref="authentication.signup">
+            Crear una cuenta
+        </md-button>
+    </section>
+</form>

@@ -1,0 +1,19 @@
+<form name="info-form" class="m-t-lg" >
+    <md-input-container flex>
+        <label>Nombre</label>
+        <input placeholder="Ingresa el nombre del torneo">
+    </md-input-container>
+    <md-input-container flex>
+        <label>Escoge la disciplina</label>
+
+    </md-input-container>
+    <md-radio-group ng-model="info.discipline" >
+        <md-radio-button ng-repeat="(key, discipline) in disciplines"
+                         ng-value="key"
+                         aria-label="{{key }}" class="md-primary">
+            {{key}}
+        </md-radio-button>
+    </md-radio-group>
+
+
+</form>

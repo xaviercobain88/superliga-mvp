@@ -1,0 +1,81 @@
+.custom {
+    /** From vulcanized demo **/
+}
+
+.custom section {
+}
+
+.custom md-content {
+    margin-right: 7px;
+}
+
+.custom section .md-button:not(.md-fab) {
+    min-width: 10em;
+}
+
+.custom section .md-button {
+    display: block;
+    margin: .5em;
+    line-height: 25px;
+}
+
+.custom .label {
+    position: absolute;
+    bottom: 5px;
+    left: 7px;
+    color: #ccc;
+    font-size: 14px;
+}
+
+.custom lx-search-filter {
+    width: 100%;
+}
+
+.custom .search-filter__container {
+    width: 100%;
+
+}
+
+.custom .search-filter--light-theme .search-filter__cancel,
+.custom .search-filter--light-theme .search-filter__input,
+.custom .search-filter--light-theme .search-filter__label {
+    color: white;
+}
+
+.custom md-tabs.md-default-theme.md-hue-1 md-tab {
+    color: #FFA726;
+}
+
+.custom md-tabs.md-default-theme.md-hue-1 md-tab.active {
+    color: #E65100;
+}
+
+.custom md-tabs.md-default-theme.md-hue-1 md-tabs-ink-bar {
+    color: #E65100;
+    background: #E65100;
+}
+.custom md-tabs.md-default-theme.md-hue-1 .md-header{
+    background: white;
+}
+.custom md-content.bg-grey.md-default-theme{
+    background-color: rgb(208, 208, 208);
+    padding-top: 120px;
+}
+.custom .new-menu .fa{
+    font-size: 2em;
+}
+.custom md-bottom-sheet.md-grid.new-menu md-item p.md-grid-text{
+    width: 100%;
+}
+.custom  md-bottom-sheet.md-grid.new-menu md-item .md-grid-item-content{
+    width: 100%;
+}
+.custom md-bottom-sheet.new-menu{
+    padding: 0px 16px 65px 16px;
+    position: fixed;
+}
+
+.custom .new-button{
+    position: fixed;
+    bottom: .3em;
+}

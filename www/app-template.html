@@ -1,0 +1,40 @@
+<div data-ng-controller="GenericController">
+<md-toolbar class="pos-fix">
+    <h2 class="md-toolbar-tools">
+        <lx-search-filter model="searchFilter.second" filter-width="100%"></lx-search-filter>
+    </h2>
+    <md-tabs class="md-primary md-hue-1 primary-nav">
+        <md-tab class="md-primary md-hue-1" id="feed" aria-controls="tab1-content">
+            <i class="fa fa-newspaper-o"></i>
+        </md-tab>
+        <md-tab id="tournaments" aria-controls="tab2-content">
+            <i class="fa fa-trophy"></i>
+        </md-tab>
+        <md-tab id="teams" aria-controls="tab3-content">
+            <i class="fa fa-users"></i>
+        </md-tab>
+        <md-tab id="calendar" aria-controls="tab3-content">
+            <i class="fa fa-calendar"></i>
+        </md-tab>
+        <md-tab id="notifications" aria-controls="tab3-content">
+            <i class="fa fa-bell"></i>
+        </md-tab>
+    </md-tabs>
+</md-toolbar>
+
+<md-content layout-fill layout="row"  layout-align="center start" class="bg-grey">
+    <section class="new-button " layout="row" layout-align="center end" flex layout-fill>
+        <md-button class="md-fab md-primary md-button" aria-label="Comment"  ng-click="showGridBottomSheet($event)">
+            <i class="fa fa-plus"></i>
+        </md-button>
+    </section>
+
+    <div layout="column"  ui-view flex>
+
+
+
+
+    </div>
+
+</md-content>
+</div>
