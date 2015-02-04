@@ -10,6 +10,8 @@
     "lumx": "~0.2.54",
     "angular-material": "~0.7.1",
     "bootstrap": "~3.3.2",
-    "fontawesome": "~4.3.0"
+    "fontawesome": "~4.3.0",
+    "angular-translate": "~2.5.2",
+    "ng-file-upload": "~3.0.0"
   }
 }

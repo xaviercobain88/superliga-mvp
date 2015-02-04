@@ -7,7 +7,7 @@
 var services = angular.module('TournamentApp.Services', []);
 
 services.factory('endpoint', [ function () {
-    return  'http://192.168.0.108:8080/superliga-rest/api/v1/';
+    return  'http://192.168.1.12:8080/superliga-rest/api/v1/';
 }]);
 
 services.factory('RestServices', ['$http', 'endpoint', function ($http, endpoint) {

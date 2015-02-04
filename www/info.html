@@ -1,7 +1,7 @@
 <form name="info-form" class="m-t-lg" >
     <md-input-container flex>
         <label>Nombre</label>
-        <input placeholder="Ingresa el nombre del torneo">
+        <input placeholder="Ingresa el nombre del torneo" ng-model="tournamentInfo.name">
     </md-input-container>
     <md-input-container flex>
         <label>Escoge la disciplina</label>
@@ -11,9 +11,23 @@
         <md-radio-button ng-repeat="(key, discipline) in disciplines"
                          ng-value="key"
                          aria-label="{{key }}" class="md-primary">
-            {{key}}
+            {{key| translate}}
         </md-radio-button>
     </md-radio-group>
+    <div class="m-t-xs">
+        <div class="thumb-lg">
+            <img ng-src="{{getImageUrl()}}"
+                 class="img-circle">
+        </div>
+    </div>
+    <div>
+        <div class="fileUpload btn btn-primary">
+            <span translate="championship.new.image.UPLOAD"></span>
+            <input type="file" class="upload"
+                   nv-file-select=""
+                   uploader="uploader"/>
+        </div>
+    </div>
 
 
 </form>
