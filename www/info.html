@@ -1,3 +1,4 @@
+
 <form name="info-form" class="m-t-lg" >
     <md-input-container flex>
         <label>Nombre</label>
@@ -14,12 +15,18 @@
             {{key| translate}}
         </md-radio-button>
     </md-radio-group>
+    <md-input-container flex>
+        <label>Escoge una imagen</label>
+    </md-input-container>
     <div class="m-t-xs">
         <div class="thumb-lg">
             <img ng-src="{{getImageUrl()}}"
                  class="img-circle">
         </div>
     </div>
+
+
+
     <div>
         <div class="fileUpload btn btn-primary">
             <span translate="championship.new.image.UPLOAD"></span>
@@ -28,6 +35,9 @@
                    uploader="uploader"/>
         </div>
     </div>
+    <md-input-container class="m-t-lg">
+        <md-button class="md-raised md-primary" ng-disabled="!allowNext();">{{'SETUP_TOURNAMENT' | translate}}</md-button>
+    </md-input-container>
 
 
 </form>

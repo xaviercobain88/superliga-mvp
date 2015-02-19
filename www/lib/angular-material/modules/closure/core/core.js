@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v0.7.1
+ * v0.7.1-master-1712d8f
  */
 goog.provide('ng.material.core');
 
@@ -384,8 +384,7 @@ function mdMediaFactory($mdConstant, $rootScope, $window) {
     return (results[result.media] = !!result.matches);
   }
 
-  function onQueryChange() {
-    var query = this;
+  function onQueryChange(query) {
     $rootScope.$evalAsync(function() {
       results[query.media] = !!query.matches;
     });
@@ -966,7 +965,7 @@ angular.module('material.core')
       },
       onEnd: function(ev, pointer) {
         if (pointer.distance < this.state.options.maxDistance) {
-          this.dispatchEvent(ev, 'click', null, ev);
+          this.dispatchEvent(ev, 'click');
         }
       }
     });
@@ -1119,7 +1118,9 @@ angular.module('material.core')
     onCancel: angular.noop,
     options: {},
 
-    dispatchEvent: dispatchEvent,
+    dispatchEvent: typeof jQuery !== 'undefined' && angular.element === jQuery ? 
+      jQueryDispatchEvent : 
+      nativeDispatchEvent,
 
     start: function(ev, pointer) {
       if (this.state.isRunning) return;
@@ -1174,24 +1175,43 @@ angular.module('material.core')
     },
   };
 
-  var customEventOptions = {
-    bubbles: true,
-    cancelable: true
-  };
+  function jQueryDispatchEvent(srcEvent, eventType, eventPointer) {
+    eventPointer = eventPointer || pointer;
+    var eventObj = new angular.element.Event(eventType)
+
+    eventObj.$material = true;
+    eventObj.pointer = eventPointer;
+    eventObj.srcEvent = srcEvent;
+
+    angular.extend(eventObj, {
+      clientX: eventPointer.x,
+      clientY: eventPointer.y,
+      screenX: eventPointer.x,
+      screenY: eventPointer.y,
+      pageX: eventPointer.x,
+      pageY: eventPointer.y,
+      ctrlKey: srcEvent.ctrlKey,
+      altKey: srcEvent.altKey,
+      shiftKey: srcEvent.shiftKey,
+      metaKey: srcEvent.metaKey
+    });
+    angular.element(eventPointer.target).trigger(eventObj);
+  }
+
   /*
-   * NOTE: dispatchEvent is very performance sensitive. 
+   * NOTE: nativeDispatchEvent is very performance sensitive. 
    */
-  function dispatchEvent(srcEvent, eventType, eventPointer, /*original DOMEvent */ev) {
+  function nativeDispatchEvent(srcEvent, eventType, eventPointer) {
     eventPointer = eventPointer || pointer;
     var eventObj;
 
     if (eventType === 'click') {
       eventObj = document.createEvent('MouseEvents');
       eventObj.initMouseEvent(
-        'click', true, true, window, ev.detail,
-        ev.screenX, ev.screenY, ev.clientX, ev.clientY, 
-        ev.ctrlKey, ev.altKey, ev.shiftKey, ev.metaKey,
-        ev.button, ev.relatedTarget || null
+        'click', true, true, window, srcEvent.detail,
+        eventPointer.x, eventPointer.y, eventPointer.x, eventPointer.y,
+        srcEvent.ctrlKey, srcEvent.altKey, srcEvent.shiftKey, srcEvent.metaKey,
+        srcEvent.button, srcEvent.relatedTarget || null
       );
 
     } else {
@@ -1251,12 +1271,16 @@ function InterimElementProvider() {
    */
   function createInterimElementProvider(interimFactoryName) {
     var EXPOSED_METHODS = ['onHide', 'onShow', 'onRemove'];
+
+    var customMethods = {};
     var providerConfig = {
       presets: {}
     };
+
     var provider = {
       setDefaults: setDefaults,
       addPreset: addPreset,
+      addMethod: addMethod,
       $get: factory
     };
 
@@ -1277,6 +1301,15 @@ function InterimElementProvider() {
     function setDefaults(definition) {
       providerConfig.optionsFactory = definition.options;
       providerConfig.methods = (definition.methods || []).concat(EXPOSED_METHODS);
+      return provider;
+    }
+
+    /**
+     * Add a method to the factory that isn't specific to any interim element operations
+     */
+
+    function addMethod(name, fn) {
+      customMethods[name] = fn;
       return provider;
     }
 
@@ -1325,6 +1358,11 @@ function InterimElementProvider() {
       defaultMethods = providerConfig.methods || [];
       // This must be invoked after the publicService is initialized
       defaultOptions = invokeFactory(providerConfig.optionsFactory, {});
+
+      // Copy over the simple custom methods
+      angular.forEach(customMethods, function(fn, name) {
+        publicService[name] = fn;
+      });
 
       angular.forEach(providerConfig.presets, function(definition, name) {
         var presetDefaults = invokeFactory(definition.optionsFactory, {});
@@ -1454,15 +1492,16 @@ function InterimElementProvider() {
        */
       function show(options) {
         if (stack.length) {
-          service.cancel();
+          return service.cancel().then(function() {
+            return show(options);
+          });
+        } else {
+          var interimElement = new InterimElement(options);
+          stack.push(interimElement);
+          return interimElement.show().then(function() {
+            return interimElement.deferred.promise;
+          });
         }
-
-        var interimElement = new InterimElement(options);
-
-        stack.push(interimElement);
-        return interimElement.show().then(function() {
-          return interimElement.deferred.promise;
-        });
       }
 
       /*
@@ -1479,11 +1518,9 @@ function InterimElementProvider() {
        */
       function hide(response) {
         var interimElement = stack.shift();
-        interimElement && interimElement.remove().then(function() {
+        return interimElement && interimElement.remove().then(function() {
           interimElement.deferred.resolve(response);
         });
-
-        return interimElement ? interimElement.deferred.promise : $q.when(response);
       }
 
       /*
@@ -1495,16 +1532,14 @@ function InterimElementProvider() {
        * Removes the `$interimElement` from the DOM and rejects the promise returned from `show`
        *
        * @param {*} reason Data to reject the promise with
-       * @returns Promise that will be rejected after the element has been removed.
+       * @returns Promise that will be resolved after the element has been removed.
        *
        */
       function cancel(reason) {
         var interimElement = stack.shift();
-        interimElement && interimElement.remove().then(function() {
+        return interimElement && interimElement.remove().then(function() {
           interimElement.deferred.reject(reason);
         });
-
-        return interimElement ? interimElement.deferred.promise : $q.reject(reason);
       }
 
 
@@ -2768,7 +2803,7 @@ function ThemingProvider($mdColorPalette) {
 
       self[colorType + 'Color'] = function() {
         var args = Array.prototype.slice.call(arguments);
-        console.warn('$mdThemingProviderTheme.' + colorType + 'Color() has been depricated. ' +
+        console.warn('$mdThemingProviderTheme.' + colorType + 'Color() has been deprecated. ' +
                      'Use $mdThemingProviderTheme.' + colorType + 'Palette() instead.');
         return self[colorType + 'Palette'].apply(self, args);
       };

@@ -1,24 +1,28 @@
-
-<form name="userForm" >
+<form name="userForm">
 
 
     <md-input-container flex>
-        <label>Email</label>
-        <input placeholder="Ingresa tu email">
+        <label>{{'CHOOSE_EMAIL' | translate}}</label>
+        <input ng-model="credentials.username"
+               placeholder="{{'PLACEHOLDER_CHOOSE_EMAIL' | translate}}">
     </md-input-container>
     <md-input-container flex>
-        <label>Contraseña</label>
-        <input type="password" placeholder="Ingresa tu contraseña">
+        <label>{{'CHOOSE_PASSWORD' | translate}}</label>
+        <input ng-model="credentials.password" type="password"
+               placeholder="{{'PLACEHOLDER_CHOOSE_PASSWORD' | translate}}">
     </md-input-container>
 
     <section layout="row" layout-align="center center" class="m-t">
-        <md-button class="md-raised md-primary md-100" ui-sref="app.feed">Ingresar</md-button>
+        <md-button class="md-raised md-primary md-100" ng-click="login()">
+            {{'LOGIN'|translate}}
+        </md-button>
     </section>
-    <section layout="row" layout-align="center center" class="m-t-xs"><a href="signup.html">Has olvidado tu contraseña?</a>
+    <section layout="row" layout-align="center center" class="m-t-xs">
+        <a href="signup.html">{{'FORGOT_PASSWORD'|translate}}</a>
     </section>
     <section layout="row" layout-align="center center" class="m-t m-b">
         <md-button class="md-raised md-default-theme" ui-sref="authentication.signup">
-            Crear una cuenta
+            {{'SIGN_UP'|translate}}
         </md-button>
     </section>
 </form>

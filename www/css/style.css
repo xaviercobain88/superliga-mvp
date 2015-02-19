@@ -60,6 +60,19 @@
 .custom md-content.bg-grey.md-default-theme{
     background-color: rgb(208, 208, 208);
     padding-top: 120px;
+
+}
+.bg-grey{
+    background-color: rgb(208, 208, 208)
+}
+.custom md-content.bg-grey-n-p.md-default-theme{
+    background-color: rgb(208, 208, 208);
+    margin-right: 0;
+        padding-top: 80px;
+}
+.custom .bg-grey-n-p .md-tab-content{
+    background-color: rgb(208, 208, 208);
+    padding-top: 5px;
 }
 .custom .new-menu .fa{
     font-size: 2em;
@@ -78,4 +91,18 @@
 .custom .new-button{
     position: fixed;
     bottom: .3em;
+}
+::-webkit-input-placeholder { color:transparent; }
+::-moz-placeholder { color:transparent; } /* firefox 19+ */
+:-ms-input-placeholder { color:transparent; } /* ie */
+input:-moz-placeholder { color:transparent; }
+.vbox{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+.md-tab-content .vbox.md{
+    position: absolute;
 }

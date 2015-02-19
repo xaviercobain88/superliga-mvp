@@ -1,0 +1,60 @@
+<md-toolbar>
+    <h2 class="md-toolbar-tools">
+        <md-button aria-label="Regresar" ng-click="back()"><i class="fa fa-chevron-left"></i></md-button>
+        Nuevo Torneo
+    </h2>
+
+
+    <md-progress-linear class="md-primary" md-mode="{{progressBar}}" ng-if="progressBar"></md-progress-linear>
+
+</md-toolbar>
+
+<md-content class="md-padding bg-grey-n-p vbox" >
+    <md-card class="bgc-white">
+        <md-card-content>
+            <md-input-container flex>
+                <label>Nombre</label>
+                <input placeholder="Ingresa el nombre del torneo" ng-model="tournament.name">
+            </md-input-container>
+            <md-input-container flex>
+                <label>Escoge la disciplina</label>
+
+            </md-input-container>
+            <md-radio-group ng-model="tournament.discipline" >
+                <md-radio-button ng-repeat="(key, discipline) in disciplines"
+                                 ng-value="key"
+                                 aria-label="{{key }}" class="md-primary"
+                                >
+                    {{key| translate}}
+                </md-radio-button>
+            </md-radio-group>
+            <md-input-container flex>
+                <label>Escoge una imagen</label>
+            </md-input-container>
+            <div class="m-t-xs">
+                <div class="thumb-lg">
+                    <img ng-src="{{getImageUrl()}}"
+                         class="img-circle">
+                </div>
+            </div>
+
+
+
+            <div>
+                <div class="fileUpload btn btn-primary">
+                    <span translate="championship.new.image.UPLOAD"></span>
+                    <input type="file" class="upload"
+                           nv-file-select=""
+                           uploader="uploader"/>
+                </div>
+            </div>
+            <md-input-container class="m-t-lg">
+                <md-button class="md-raised md-primary" ng-click="submit()">{{'SAVE_AND_CONTINUE' | translate}}</md-button>
+            </md-input-container>
+        </md-card-content>
+    </md-card>
+
+
+</md-content>
+
+

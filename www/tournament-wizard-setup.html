@@ -1,0 +1,89 @@
+<md-toolbar>
+    <h2 class="md-toolbar-tools">
+        <md-button aria-label="Regresar" ng-click="back()"><i class="fa fa-chevron-left"></i></md-button>
+        Nuevo Torneo
+    </h2>
+
+
+    <md-progress-linear class="md-primary" md-mode="{{progressBar}}" ng-if="progressBar"></md-progress-linear>
+
+</md-toolbar>
+<section class="new-button " layout="row" layout-align="center end" flex layout-fill>
+    <md-button class="md-fab md-primary md-button"
+               ng-click="addStage();" aria-label="">
+        <i class="fa fa-plus"></i>
+    </md-button>
+</section>
+<md-tabs class="md-primary md-hue-1 primary-nav bg-grey-n-p "
+          md-selected="selectedTabIndex">
+
+    <md-tab class="md-primary md-hue-1" ng-repeat="stage in stages"
+            md-on-select="goToStage($index);"
+            >
+        <md-tab-label>
+            {{'PHASE' | translate}} {{$index+1 }}
+        </md-tab-label>
+        <md-card class="bgc-white">
+            <md-card-content>
+                <md-input-container flex>
+                    <label>{{'CHOOSE_MODE' | translate}}</label>
+
+                </md-input-container>
+                <md-radio-group ng-model="stage.mode">
+                    <md-radio-button ng-repeat="mode in modes"
+                                     ng-value="mode"
+                                     aria-label="{{mode}}" class="md-primary"
+
+                            >
+                        {{mode| translate}}
+                    </md-radio-button>
+                </md-radio-group>
+
+                <md-input-container flex>
+                    <label>
+                        {{stage.mode=='GROUPS'&&'CHOOSE_INPUT_GROUPS'||'CHOOSE_INPUT' | translate}}</label>
+
+                    <input ng-if="isOpenInputTeams"
+                           placeholder="Ingresa el nombre del torneo" ng-model="stage.inputTeams">
+
+                </md-input-container>
+                <div>
+                    <md-radio-group ng-model="stage.inputTeams" ng-if="!isOpenInputTeams">
+                        <md-radio-button ng-repeat="input in inputs"
+                                         ng-value="input"
+                                         aria-label="{{input}}" class="md-primary">
+                            {{input}}
+                        </md-radio-button>
+                    </md-radio-group>
+                </div>
+
+                <md-input-container flex ng-if="stage.mode=='GROUPS'">
+                    <label>
+                        {{'CHOOSE_GROUPS' | translate}}</label>
+                    <input placeholder="{{'PLACEHOLDER_CHOOSE_GROUPS' | translate}}"
+                           ng-model="stage.groupsNumber">
+                </md-input-container>
+
+                <md-input-container flex>
+                    <label>
+                        {{'CHOOSE_OUTPUT' | translate}}</label>
+                    <input placeholder="{{stage.mode=='GROUPS'&&'CHOOSE_OUTPUT_GROUPS'||'CHOOSE_OUTPUT' | translate}}"
+                           ng-model="stage.outputTeams">
+                </md-input-container>
+                <md-input-container class="m-t-lg">
+                    <md-button class="md-raised md-primary" ng-click="deleteStage($index)" aria-label=""
+                               ng-if="stages.length>1">
+                        {{'DELETE_STAGE' | translate}}
+                    </md-button>
+                    <md-button class="md-raised md-primary" ng-click="save()" aria-label="">
+                            <!--ng-if="$index==(stages.length-1)"-->
+                        {{'SAVE_AND_CONTINUE' | translate}}
+                    </md-button>
+                </md-input-container>
+            </md-card-content>
+        </md-card>
+
+
+    </md-tab>
+
+</md-tabs>
